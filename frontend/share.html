@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Share File | Secure Cloud Storage</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>Secure Cloud Storage</h2>
+    <button onclick="goDashboard()" class="logout-btn">Dashboard</button>
+</div>
+
+<div class="dashboard-container">
+
+    <h3>Share File</h3>
+
+    <!-- User Email Input -->
+    <div class="input-group">
+        <label>User Email</label>
+        <input type="email" id="shareEmail" placeholder="Enter user email">
+    </div>
+
+    <!-- Permission Selection -->
+    <div class="input-group">
+        <label>Permission</label>
+        <select id="permission">
+            <option value="VIEW">View Only</option>
+            <option value="EDIT">Edit</option>
+        </select>
+    </div>
+
+    <button onclick="shareFile()" class="upload-btn">
+        Share File
+    </button>
+
+    <p id="status"></p>
+
+    <hr>
+
+    <h3>People with Access</h3>
+
+    <table class="file-table">
+
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Permission</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="accessTable">
+
+            <!-- Example -->
+            <tr>
+                <td>user@gmail.com</td>
+                <td>View</td>
+                <td>
+                    <button onclick="revokeAccess(this)" class="action-btn delete">
+                        Revoke
+                    </button>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+function shareFile() {
+
+    const email = document.getElementById("shareEmail").value;
+    const permission = document.getElementById("permission").value;
+
+    if (!email) {
+        alert("Enter email");
+        return;
+    }
+
+    document.getElementById("status").innerText =
+        "Access granted to " + email + " ✅";
+
+    console.log("Share with:", email, "Permission:", permission);
+
+    // Later connect to backend API
+
+}
+
+
+function revokeAccess(button) {
+
+    button.parentElement.parentElement.remove();
+
+    alert("Access revoked ❌");
+
+}
+
+
+function goDashboard() {
+
+    window.location.href = "dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>
