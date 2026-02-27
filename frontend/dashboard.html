@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Secure Cloud Storage</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <h2>Secure Cloud Storage</h2>
+    <button onclick="logout()" class="logout-btn">Logout</button>
+</div>
+
+<!-- Main Container -->
+<div class="dashboard-container">
+
+    <div class="dashboard-header">
+        <h3>Your Files</h3>
+        <button onclick="goToUpload()" class="upload-btn">Upload File</button>
+    </div>
+
+    <!-- File Table -->
+    <table class="file-table">
+
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Owner</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <!-- Example row -->
+            <tr>
+                <td>document.pdf</td>
+                <td>You</td>
+                <td>27 Feb 2026</td>
+                <td>
+                    <button class="action-btn">Download</button>
+                    <button class="action-btn">Share</button>
+                    <button class="action-btn delete">Delete</button>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="js/app.js"></script>
+
+<script>
+function logout() {
+    alert("Logout clicked");
+}
+
+function goToUpload() {
+    window.location.href = "upload.html";
+}
+</script>
+
+</body>
+</html>
