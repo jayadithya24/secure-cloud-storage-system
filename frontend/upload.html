@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File | Secure Cloud Storage</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>Secure Cloud Storage</h2>
+    <button onclick="goDashboard()" class="logout-btn">Dashboard</button>
+</div>
+
+<div class="dashboard-container">
+
+    <h3>Upload & Encrypt File</h3>
+
+    <input type="file" id="fileInput">
+    <br><br>
+
+    <button onclick="encryptAndUpload()" class="upload-btn">
+        Encrypt & Upload
+    </button>
+
+    <p id="status"></p>
+
+</div>
+
+<script>
+
+// Generate AES key
+async function generateAESKey() {
+
+    return await crypto.subtle.generateKey(
+        {
+            name: "AES-GCM",
+            length: 256
+        },
+        true,
+        ["encrypt", "decrypt"]
+    );
+}
+
+
+// Encrypt file
+async function encryptFile(file, key) {
+
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+
+    const fileBuffer = await file.arrayBuffer();
+
+    const encrypted = await crypto.subtle.encrypt(
+        {
+            name: "AES-GCM",
+            iv: iv
+        },
+        key,
+        fileBuffer
+    );
+
+    return {
+        encryptedData: encrypted,
+        iv: iv
+    };
+}
+
+
+// Main upload function
+async function encryptAndUpload() {
+
+    const file = document.getElementById("fileInput").files[0];
+
+    if (!file) {
+        alert("Select file first");
+        return;
+    }
+
+    document.getElementById("status").innerText =
+        "Encrypting file...";
+
+    const key = await generateAESKey();
+
+    const result = await encryptFile(file, key);
+
+    console.log("Encrypted File:", result.encryptedData);
+    console.log("AES Key:", key);
+
+    document.getElementById("status").innerText =
+        "File encrypted successfully ✅ (Ready for backend upload)";
+
+    // NEXT STEP (backend integration later):
+    // send encryptedData to Spring Boot API
+
+}
+
+
+function goDashboard() {
+    window.location.href = "dashboard.html";
+}
+
+</script>
+
+</body>
+</html>
