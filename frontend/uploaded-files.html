@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Uploaded Files | Secure Cloud Storage</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page">
+
+<div class="navbar">
+    <h2>Secure Cloud Storage</h2>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+        <button onclick="goDashboard()" class="action-btn">Dashboard</button>
+        <button onclick="goUpload()" class="action-btn">Upload File</button>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <h3>Uploaded Files</h3>
+            <p class="subtitle">All files uploaded by your account appear here.</p>
+        </div>
+    </div>
+
+    <table class="file-table">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Owner</th>
+                <th>Storage Path</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="uploadedFilesBody">
+            <tr>
+                <td colspan="4">Loading files...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function logout() {
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userId");
+    window.location.href = "login.html";
+}
+
+function goDashboard() {
+    window.location.href = "dashboard.html";
+}
+
+function goUpload() {
+    window.location.href = "upload.html";
+}
+
+async function loadUploadedFilesPage() {
+    const email = localStorage.getItem("userEmail");
+
+    if (!email) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/files?email=${encodeURIComponent(email)}`);
+        const files = await response.json();
+        const table = document.getElementById("uploadedFilesBody");
+        table.innerHTML = "";
+
+        if (!files.length) {
+            table.innerHTML = '<tr><td colspan="4">No uploaded files yet.</td></tr>';
+            return;
+        }
+
+        files.forEach(file => {
+            const row = `
+                <tr>
+                    <td>${file.fileName}</td>
+                    <td>${file.ownerEmail === email ? "You" : file.ownerEmail}</td>
+                    <td>${file.filePath}</td>
+                    <td>
+                        <button class="action-btn" onclick="downloadFile('${file.id}')">Download</button>
+                        <button class="action-btn" onclick="window.location.href='share.html'">Share</button>
+                    </td>
+                </tr>
+            `;
+            table.innerHTML += row;
+        });
+    } catch (error) {
+        console.error(error);
+        document.getElementById("uploadedFilesBody").innerHTML = '<tr><td colspan="4">Failed to load files.</td></tr>';
+    }
+}
+
+loadUploadedFilesPage();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+Secure Cloud Storage Sample File
+===============================
+
+This is a sample file for testing upload and encryption.
+
+Created on: 2026-04-15
+Owner: Demo User
+Purpose: Upload workflow validation
+
+Checklist:
+- Open upload page
+- Choose this file
+- Click Encrypt & Upload
+- Verify file appears in dashboard list
+
+Random verification text:
+alpha-42-bravo-77-charlie-19
