@@ -2,50 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Register | Secure Cloud Storage</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-
-<div class="login-container">
-
-    <h2>Create Account</h2>
-    <p class="subtitle">Register for Secure Cloud Storage</p>
-
-    <form id="registerForm">
-
-        <div class="input-group">
-            <label>Full Name</label>
-            <input type="text" id="fullname" placeholder="Enter your name" required>
+<body class="auth-page">
+<div class="ph-outer">
+<main class="ph-layout">
+    <section class="ph-visual">
+        <span class="ph-eyebrow">CREATE SECURE CLOUD ACCOUNT</span>
+        <h1>Register to protect your files and manage your cloud workspace.</h1>
+        <p class="ph-lead">
+            Use a strong password and get started with secure, fast onboarding.
+        </p>
+        <div class="ph-badges">
+            <div class="ph-badge-card">
+                <strong>Live strength meter</strong>
+                <span>See password quality as you type.</span>
+            </div>
+            <div class="ph-badge-card">
+                <strong>Instant feedback</strong>
+                <span>Weak passwords are blocked with clear, helpful error messages.</span>
+            </div>
+            <div class="ph-badge-card">
+                <strong>Secure storage</strong>
+                <span>Passwords are hashed using BCrypt on the backend.</span>
+            </div>
         </div>
-
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="email" placeholder="Enter your email" required>
+    </section>
+    <section class="ph-card">
+        <div class="ph-form-head">
+            <span class="ph-eyebrow ph-eyebrow-red">Secure Cloud account</span>
+            <h2>Register your account</h2>
+            <p class="ph-subtitle">Create a strong password to keep your files safe.</p>
         </div>
-
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="Create password" required>
-        </div>
-
-        <div class="input-group">
-            <label>Confirm Password</label>
-            <input type="password" id="confirmPassword" placeholder="Confirm password" required>
-        </div>
-
-        <button type="submit" class="login-btn">Register</button>
-
-    </form>
-
-    <p class="register-link">
-        Already have an account?
-        <a href="login.html">Login</a>
-    </p>
-
+        <form id="registerForm" class="form-grid">
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="password-field">
+                    <input type="password" id="password" placeholder="Create a strong password" autocomplete="new-password" required>
+                    <button type="button" class="password-toggle" data-password-toggle="password">Show</button>
+                </div>
+            </div>
+            <div class="strength-wrap">
+                <div class="strength-track"><div id="passwordStrengthBar" class="strength-bar"></div></div>
+                <div id="passwordStrengthLabel" class="strength-label">Start typing to see password strength</div>
+            </div>
+            <div class="password-rules">
+                <h4>Password conditions</h4>
+                <ul id="passwordChecklist" class="rules-list">
+                    <li>8-32 characters</li>
+                    <li>At least one uppercase letter</li>
+                    <li>At least one lowercase letter</li>
+                    <li>At least one number</li>
+                    <li>At least one special character</li>
+                </ul>
+            </div>
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="password-field">
+                    <input type="password" id="confirmPassword" placeholder="Repeat your password" autocomplete="new-password" required>
+                    <button type="button" class="password-toggle" data-password-toggle="confirmPassword">Show</button>
+                </div>
+            </div>
+            <button type="submit" class="ph-login-btn">Create Account</button>
+            <p id="status" class="status-message"></p>
+        </form>
+        <div class="subtle-rule"></div>
+        <p class="ph-register-link">
+            Already have an account? <a href="login.html">Sign in</a>
+        </p>
+    </section>
+</main>
 </div>
 
 <script src="js/app.js"></script>
-
 </body>
 </html>

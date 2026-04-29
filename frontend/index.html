@@ -2,15 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=login.html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <title>Secure Cloud Storage</title>
-  <script>
-    // Redirect root requests to the login page for local static hosting.
-    window.location.replace('login.html');
-  </script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <p>Redirecting to <a href="login.html">login page</a>...</p>
+<body class="landing-page">
+<main class="landing-shell">
+  <section class="landing-hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Secure cloud storage</span>
+      <h1>Protect files with a modern workspace that feels fast and premium.</h1>
+      <p class="lead">
+        Upload encrypted files, share them with confidence, and manage access from a polished dashboard built for clarity.
+      </p>
+      <div class="landing-cta">
+        <a class="btn btn-primary" href="login.html">Sign In</a>
+        <a class="btn btn-secondary" href="register.html">Create Account</a>
+      </div>
+      <div class="inline-kpis">
+        <div class="pill">BCrypt passwords</div>
+        <div class="pill">Encrypted file storage</div>
+        <div class="pill">Responsive UI</div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Clean operations</h4>
+        <p>Every page uses the same visual language, so the product feels coherent instead of stitched together.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Safer passwords</h4>
+        <p>Register with strong password conditions and instant validation hints before the form is submitted.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Practical sharing</h4>
+        <p>Use a file ID and email to create access rules without needing to leave the browser.</p>
+      </div>
+    </div>
+  </section>
+</main>
 </body>
 </html>

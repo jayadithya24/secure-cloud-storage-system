@@ -10,5 +10,9 @@ public interface FileShareRepository extends JpaRepository<FileShare, Long> {
 
     boolean existsByFileIdAndSharedWith(Long fileId, String sharedWith);
 
+    FileShare findByFileIdAndSharedWith(Long fileId, String sharedWith);
+
     FileShare findByPublicToken(String token);
+
+    List<FileShare> findByFileId(Long fileId);
 }

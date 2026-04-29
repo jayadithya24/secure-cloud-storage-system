@@ -2,112 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Share File | Secure Cloud Storage</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-
-<div class="navbar">
-    <h2>Secure Cloud Storage</h2>
-    <button onclick="goDashboard()" class="logout-btn">Dashboard</button>
-</div>
-
-<div class="dashboard-container">
-
-    <h3>Share File</h3>
-
-    <!-- User Email Input -->
-    <div class="input-group">
-        <label>User Email</label>
-        <input type="email" id="shareEmail" placeholder="Enter user email">
+<body class="app-page">
+<header class="navbar">
+    <div class="brand">
+        <div class="brand-mark">SC</div>
+        <div class="brand-title">
+            <strong>Secure Cloud Storage</strong>
+            <span class="nav-subtitle">Sharing workspace</span>
+        </div>
     </div>
 
-    <!-- Permission Selection -->
-    <div class="input-group">
-        <label>Permission</label>
-        <select id="permission">
-            <option value="VIEW">View Only</option>
-            <option value="EDIT">Edit</option>
-        </select>
+    <div class="toolbar-actions">
+        <button onclick="goDashboard()" class="action-btn btn-secondary">Dashboard</button>
+        <button onclick="goUpload()" class="action-btn btn-primary">Upload File</button>
+        <button onclick="logout()" class="action-btn btn-ghost">Logout</button>
     </div>
-
-    <button onclick="shareFile()" class="upload-btn">
-        Share File
-    </button>
-
-    <p id="status"></p>
-
-    <hr>
-
-    <h3>People with Access</h3>
-
-    <table class="file-table">
-
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Permission</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody id="accessTable">
-
-            <!-- Example -->
-            <tr>
-                <td>user@gmail.com</td>
-                <td>View</td>
-                <td>
-                    <button onclick="revokeAccess(this)" class="action-btn delete">
-                        Revoke
-                    </button>
-                </td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
+    </header>
+<div class="share-outer">
+<main class="share-wide-layout">
+    <section class="share-wide-card">
+        <div class="form-head">
+            <span class="eyebrow">Share file access</span>
+            <h2>Share file access</h2>
+            <p class="subtitle">Use a file ID from your dashboard and choose who should receive access.</p>
+        </div>
+        <form class="form-grid" onsubmit="event.preventDefault(); shareFile();">
+            <div class="input-group">
+                <label for="fileId">File ID</label>
+                <input type="number" id="fileId" class="compact-input" placeholder="Enter file ID" min="1">
+            </div>
+            <div class="input-group">
+                <label for="shareEmail">Recipient email</label>
+                <input type="email" id="shareEmail" class="compact-input" placeholder="Enter user email">
+            </div>
+            <div class="input-group">
+                <label for="permission">Permission</label>
+                <select id="permission">
+                    <option value="VIEW">View only</option>
+                    <option value="EDIT">Edit</option>
+                </select>
+                <p class="helper-text">View only limits share mode in the app. Once a file is downloaded on someone's device, local edits cannot be technically blocked.</p>
+            </div>
+            <div class="input-group">
+                <label for="maxDownloads">Max downloads for this recipient</label>
+                <input type="number" id="maxDownloads" class="compact-input" placeholder="Optional (leave blank for unlimited)" min="1">
+                <p class="helper-text">Set how many times this recipient can download this shared file.</p>
+            </div>
+            <div class="input-group">
+                <label for="expiresAt">Share expiry time (optional)</label>
+                <input type="datetime-local" id="expiresAt" class="compact-input">
+                <p class="helper-text">Leave this empty if the file should never expire. If a time is set, access is blocked after that moment.</p>
+            </div>
+            <div class="button-row share-actions">
+                <button type="submit" class="upload-btn">Share file</button>
+                <button type="button" onclick="goDashboard()" class="action-btn btn-secondary">Back to dashboard</button>
+            </div>
+            <p id="status" class="status-message share-status"></p>
+        </form>
+        <div class="subtle-rule"></div>
+        <div class="form-head">
+            <span class="eyebrow">Shared files</span>
+            <h2>Your shared files</h2>
+            <p class="subtitle">This list reflects the files shared with the account you are signed in as.</p>
+        </div>
+        <div class="table-wrap">
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Owner</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="accessTable">
+                    <tr>
+                        <td colspan="3">
+                            <div class="empty-state">Loading shared files...</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
 </div>
-
-<script>
-
-function shareFile() {
-
-    const email = document.getElementById("shareEmail").value;
-    const permission = document.getElementById("permission").value;
-
-    if (!email) {
-        alert("Enter email");
-        return;
-    }
-
-    document.getElementById("status").innerText =
-        "Access granted to " + email + " ✅";
-
-    console.log("Share with:", email, "Permission:", permission);
-
-    // Later connect to backend API
-
-}
-
-
-function revokeAccess(button) {
-
-    button.parentElement.parentElement.remove();
-
-    alert("Access revoked ❌");
-
-}
-
-
-function goDashboard() {
-
-    window.location.href = "dashboard.html";
-
-}
-
-</script>
-
+<script src="js/app.js"></script>
 </body>
 </html>

@@ -4,10 +4,14 @@ public class SharedFileResponse {
 
     private String fileName;
     private String ownerEmail;
+    private String shareLink;
+    private String permission;
 
-    public SharedFileResponse(String fileName, String ownerEmail) {
+    public SharedFileResponse(String fileName, String ownerEmail, String shareLink, String permission) {
         this.fileName = fileName;
         this.ownerEmail = ownerEmail;
+        this.shareLink = shareLink;
+        this.permission = permission;
     }
 
     public String getFileName() {
@@ -16,5 +20,13 @@ public class SharedFileResponse {
 
     public String getOwnerEmail() {
         return ownerEmail;
+    }
+
+    public String getShareLink() {
+        return shareLink;
+    }
+
+    public String getPermission() {
+        return permission;
     }
 }

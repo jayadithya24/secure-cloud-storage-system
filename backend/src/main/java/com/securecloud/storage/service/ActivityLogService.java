@@ -5,6 +5,8 @@ import com.securecloud.storage.repository.ActivityLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ActivityLogService {
 
@@ -17,5 +19,9 @@ public class ActivityLogService {
         activityLog.setAction(action);
         activityLog.setDetails(details);
         activityLogRepository.save(activityLog);
+    }
+
+    public List<ActivityLog> getLogsForActor(String actorEmail) {
+        return activityLogRepository.findByActorEmailOrderByCreatedAtDesc(actorEmail);
     }
 }
