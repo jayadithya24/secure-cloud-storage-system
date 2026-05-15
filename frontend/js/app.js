@@ -1,4 +1,4 @@
-const BASE_URL = "https://secure-cloud-storage-system.onrender.com/api";
+const BASE_URL = "http://localhost:8080/api";
 const SESSION_KEYS = {
     token: "token",
     email: "userEmail",
@@ -780,6 +780,32 @@ function initAuthPages() {
     bindPasswordToggle();
 }
 
+async function populateFilePicker() {
+    const email = getSessionEmail();
+    const filePicker = document.getElementById("filePicker");
+    const fileIdInput = document.getElementById("fileId");
+    if (!filePicker || !fileIdInput || !email) return;
+
+    try {
+        const response = await fetch(`${BASE_URL}/files?email=${encodeURIComponent(email)}`);
+        const files = await response.json();
+        if (!files.length) {
+            filePicker.innerHTML = '<option value="">No files found</option>';
+            fileIdInput.value = "";
+            return;
+        }
+        filePicker.innerHTML = files.map(file => `<option value="${escapeHtml(file.id)}">${escapeHtml(file.fileName)}</option>`).join("");
+        // Set initial value
+        fileIdInput.value = files[0]?.id || "";
+        filePicker.addEventListener("change", function() {
+            fileIdInput.value = this.value;
+        });
+    } catch (e) {
+        filePicker.innerHTML = '<option value="">Failed to load files</option>';
+        fileIdInput.value = "";
+    }
+}
+
 function initAppPage() {
     updateSessionBanner();
 
@@ -794,6 +820,11 @@ function initAppPage() {
     if (document.getElementById("ownerAlertsList")) {
         loadOwnerAlerts();
         window.setInterval(loadOwnerAlerts, 15000);
+    }
+
+    // Populate file picker on share page
+    if (document.getElementById("filePicker") && document.getElementById("fileId")) {
+        populateFilePicker();
     }
 
     const uploadButton = document.getElementById("uploadButton");

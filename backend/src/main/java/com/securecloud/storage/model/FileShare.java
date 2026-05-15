@@ -1,45 +1,45 @@
 package com.securecloud.storage.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Entity
+@Document(collection = "file_share")
 public class FileShare {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    private Long fileId;
+    private String fileId;
 
     private String sharedWith;
 
-    private String publicToken;   // ADD THIS
+    private String publicToken;
 
     private String permission;
 
-    @Column(name = "max_downloads")
     private Integer maxDownloads;
 
-    @Column(name = "download_count")
     private Integer downloadCount = 0;
 
-    @Column(name = "expires_at")
     private Instant expiresAt;
 
-    @Column(name = "expiry_action")
     private String expiryAction;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public Long getFileId() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFileId() {
         return fileId;
     }
 
-    public void setFileId(Long fileId) {
+    public void setFileId(String fileId) {
         this.fileId = fileId;
     }
 

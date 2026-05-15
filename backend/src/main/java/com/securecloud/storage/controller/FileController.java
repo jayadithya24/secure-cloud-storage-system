@@ -80,7 +80,7 @@ public class FileController {
 
     // Download file (WITH DECRYPTION)
     @GetMapping("/download/{id}")
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Long id, HttpServletRequest request) throws Exception {
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String id, HttpServletRequest request) throws Exception {
 
         FileEntity fileEntity = fileService.getFileById(id);
 
@@ -115,7 +115,7 @@ public class FileController {
     // Share file
     @PostMapping("/share")
     public ResponseEntity<String> shareFile(
-        @RequestParam Long fileId,
+        @RequestParam String fileId,
         @RequestParam String email,
         @RequestParam(defaultValue = "VIEW") String permission,
         @RequestParam(required = false) Integer maxDownloads,
@@ -227,33 +227,40 @@ public class FileController {
 
         for (FileEntity file : ownerFiles) {
             List<FileShare> shares = fileShareRepository.findByFileId(file.getId());
-
             for (FileShare share : shares) {
                 User recipient = userRepository.findByEmail(share.getSharedWith());
                 boolean isSuspicious = recipient != null && recipient.isSuspicious();
                 String permission = share.getPermission() == null ? "VIEW" : share.getPermission();
-
                 result.add(new OwnerShareStatusResponse(
-                        file.getId(),
-                        file.getFileName(),
-                        share.getSharedWith(),
-                        permission,
-                        isSuspicious
+                    parseFileId(file.getId()),
+                    file.getFileName(),
+                    share.getSharedWith(),
+                    permission,
+                    isSuspicious
                 ));
             }
         }
 
+
         result.sort(Comparator
-                .comparing(OwnerShareStatusResponse::isSuspicious).reversed()
-                .thenComparing(OwnerShareStatusResponse::getFileId)
-                .thenComparing(OwnerShareStatusResponse::getRecipientEmail));
+            .comparing(OwnerShareStatusResponse::isSuspicious).reversed()
+            .thenComparing(OwnerShareStatusResponse::getFileId)
+            .thenComparing(OwnerShareStatusResponse::getRecipientEmail));
 
         return result;
     }
 
+    private Long parseFileId(String id) {
+        try {
+            return id == null ? null : Long.parseLong(id);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     // Delete file
     @DeleteMapping("/file/{id}")
-    public String deleteFile(@PathVariable Long id) {
+    public String deleteFile(@PathVariable String id) {
 
         FileEntity file = fileService.getFileById(id);
 

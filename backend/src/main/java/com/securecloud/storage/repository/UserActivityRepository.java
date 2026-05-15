@@ -1,13 +1,13 @@
 package com.securecloud.storage.repository;
 
 import com.securecloud.storage.model.UserActivity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.time.Instant;
 
-public interface UserActivityRepository extends JpaRepository<UserActivity, Long> {
+public interface UserActivityRepository extends MongoRepository<UserActivity, String> {
 
-    UserActivity findTopByUserIdAndActionOrderByTimestampDesc(Long userId, String action);
+    UserActivity findTopByUserIdAndActionOrderByTimestampDesc(String userId, String action);
 
-    long countByUserIdAndActionAndTimestampAfter(Long userId, String action, Instant threshold);
+    long countByUserIdAndActionAndTimestampAfter(String userId, String action, Instant threshold);
 }

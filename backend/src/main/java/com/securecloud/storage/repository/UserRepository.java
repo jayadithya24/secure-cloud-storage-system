@@ -1,11 +1,11 @@
 package com.securecloud.storage.repository;
 
 import com.securecloud.storage.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends MongoRepository<User, String> {
 
     User findByEmail(String email);
 

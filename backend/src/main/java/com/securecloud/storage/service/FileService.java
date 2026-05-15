@@ -55,22 +55,18 @@ public class FileService {
     }
 
     // Get file by ID
-    public FileEntity getFileById(Long id) {
+    public FileEntity getFileById(String id) {
         return fileRepository.findById(id).orElse(null);
     }
 
     // Delete file
-    public void deleteFile(Long id) {
-
+    public void deleteFile(String id) {
         FileEntity file = fileRepository.findById(id).orElse(null);
-
         if (file != null) {
             File diskFile = new File(file.getFilePath());
-
             if (diskFile.exists()) {
                 diskFile.delete();
             }
-
             fileRepository.deleteById(id);
         }
     }

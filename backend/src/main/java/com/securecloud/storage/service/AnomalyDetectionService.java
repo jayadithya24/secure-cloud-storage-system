@@ -67,14 +67,23 @@ public class AnomalyDetectionService {
 
     public List<SuspiciousUserResponse> getSuspiciousUsers() {
         return userRepository.findByIsSuspiciousTrueOrderByIdAsc().stream()
-                .map(user -> new SuspiciousUserResponse(
-                        user.getId(),
-                        user.getEmail(),
-                        user.isSuspicious(),
-                        user.getSuspiciousReason(),
-                        user.getSuspiciousAt()
-                ))
-                .toList();
+            .map(user -> new SuspiciousUserResponse(
+                parseUserId(user.getId()),
+                user.getEmail(),
+                user.isSuspicious(),
+                user.getSuspiciousReason(),
+                user.getSuspiciousAt()
+            ))
+            .toList();
+
+        }
+
+        private Long parseUserId(String id) {
+        try {
+            return id == null ? null : Long.parseLong(id);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     private void markSuspicious(User user, String reason) {
@@ -84,7 +93,7 @@ public class AnomalyDetectionService {
         userRepository.save(user);
     }
 
-    private void saveActivity(Long userId, String ipAddress, String action) {
+    private void saveActivity(String userId, String ipAddress, String action) {
         UserActivity activity = new UserActivity();
         activity.setUserId(userId);
         activity.setIpAddress(ipAddress);

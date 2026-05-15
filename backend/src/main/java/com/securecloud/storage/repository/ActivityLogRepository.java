@@ -1,10 +1,10 @@
 package com.securecloud.storage.repository;
 
 import com.securecloud.storage.model.ActivityLog;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> {
-	List<ActivityLog> findByActorEmailOrderByCreatedAtDesc(String actorEmail);
+public interface ActivityLogRepository extends MongoRepository<ActivityLog, String> {
+    List<ActivityLog> findByActorEmailOrderByCreatedAtDesc(String actorEmail);
 }
