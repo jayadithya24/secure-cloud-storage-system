@@ -13,9 +13,13 @@ public class WebCorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://secure-cloud-storage-system.vercel.app")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
+                    .allowedOrigins(
+                        "https://secure-cloud-storage-system.vercel.app",
+                        "https://jay-file-manager.vercel.app",
+                        "http://localhost:3000"
+                    )
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedHeaders("*");
             }
         };
     }
