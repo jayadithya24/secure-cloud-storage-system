@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = "https://secure-cloud-storage-system.onrender.com/api";
 const SESSION_KEYS = {
     token: "token",
     email: "userEmail",
