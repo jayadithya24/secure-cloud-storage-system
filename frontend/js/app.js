@@ -335,14 +335,13 @@ function renderFileTable(files, tableBody, options = {}) {
         const safeOwner = escapeHtml(file.ownerEmail || file.owner || "You");
         const safePath = escapeHtml(file.filePath || "-");
         const buttons = [
-            `<button class="action-btn" onclick="downloadFile('${file.id}')">Download</button>`,
-            `<button class="action-btn" onclick="window.location.href='share.html'">Share</button>`
-        ];
+    `<button class="action-btn download-btn" data-id="${file.id}">Download</button>`,
+    `<button class="action-btn share-btn">Share</button>`
+];
 
         if (allowDelete) {
-            buttons.push(`<button class="action-btn delete" onclick="deleteFile('${file.id}')">Delete</button>`);
+            buttons.push(`<button class="action-btn delete delete-btn" data-id="${file.id}">Delete</button>`);
         }
-
         return `
             <tr>
                 ${showId ? `<td>${escapeHtml(file.id)}</td>` : ""}
@@ -355,6 +354,24 @@ function renderFileTable(files, tableBody, options = {}) {
             </tr>
         `;
     }).join("");
+    // ADD HERE
+document.querySelectorAll(".download-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        downloadFile(button.dataset.id);
+    });
+});
+
+document.querySelectorAll(".delete-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        deleteFile(button.dataset.id);
+    });
+});
+
+document.querySelectorAll(".share-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        window.location.href = "share.html";
+    });
+});
 }
 
 async function loadFiles() {
@@ -425,12 +442,30 @@ async function loadSharedFiles() {
                 <td>${escapeHtml(file.ownerEmail)}</td>
                 <td>
                     <div class="button-row">
-                        <button class="action-btn" onclick="openSharedFileLink('${encodeURIComponent(file.shareLink || "")}')">Open link</button>
-                        <button class="action-btn" onclick="copySharedFileLink('${encodeURIComponent(file.shareLink || "")}')">Copy link</button>
+                       <button class="action-btn open-link-btn"
+        data-link="${encodeURIComponent(file.shareLink || "")}">
+    Open link
+</button>
+
+<button class="action-btn copy-link-btn"
+        data-link="${encodeURIComponent(file.shareLink || "")}">
+    Copy link
+</button>
                     </div>
                 </td>
             </tr>
         `).join("");
+        document.querySelectorAll(".open-link-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        openSharedFileLink(button.dataset.link);
+    });
+});
+
+document.querySelectorAll(".copy-link-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        copySharedFileLink(button.dataset.link);
+    });
+});
     } catch (error) {
         console.error(error);
         tableBody.innerHTML = `
