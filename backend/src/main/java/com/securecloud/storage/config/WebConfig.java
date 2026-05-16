@@ -10,11 +10,12 @@ import java.util.Arrays;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${app.cors.allowed-origins:http://localhost:5500,http://127.0.0.1:5500}")
+    @Value("${app.cors.allowed-origins:https://jay-file-manager.vercel.app,https://secure-cloud-storage-system.vercel.app,http://localhost:5500,http://127.0.0.1:5500}")
     private String allowedOrigins;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+
         String[] origins = Arrays.stream(allowedOrigins.split(","))
                 .map(String::trim)
                 .filter(value -> !value.isBlank())
